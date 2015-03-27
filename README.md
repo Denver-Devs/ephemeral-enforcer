@@ -17,3 +17,4 @@ You can also install ephembot globally or `npm link` from inside the repo and
 run `ephembot -p 4000` which will run it on port 4000. Choose whatever port you
 want.
 
+[![js-standard-style](https://raw.githubusercontent.com/feross/standard/master/badge.png)](https://github.com/feross/standard)
