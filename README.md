@@ -7,4 +7,4 @@ A slack (bot) that deletes messages for ephemerality sake!
 
 ## /ephemeral off
 
-## /ephemeral level <15mins|1hr|30seconds|etc...>
+## /ephemeral level \<15mins|1hr|30seconds|etc...\>
