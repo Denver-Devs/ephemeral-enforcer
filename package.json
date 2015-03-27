@@ -2,8 +2,12 @@
   "name": "ephemeral-enforcer",
   "version": "1.0.0",
   "description": "A lil' slack bot that'll make slack more ephemeral",
-  "main": "index.js",
+  "main": "bin/ephembot.js",
+  "bin": {
+    "ephembot": "bin/ephembot"
+  },
   "scripts": {
+    "start": "./bin/ephembot",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build:dist": "./bin/dist.js",
     "build:dev": "./bin/dev.js"
@@ -24,5 +28,9 @@
   "devDependencies": {
     "chai": "^2.2.0",
     "mocha": "^2.2.1"
+  },
+  "dependencies": {
+    "babel": "^4.7.16",
+    "minimist": "^1.1.1"
   }
 }
