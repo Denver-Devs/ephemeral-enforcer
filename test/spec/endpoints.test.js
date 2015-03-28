@@ -2,7 +2,7 @@
 
 require('babel/register')
 
-var app = require('../')
+var app = require('../../')
 var request = require('supertest')(app)
 
 describe('/ephemeral', function () {
