@@ -7,11 +7,19 @@ import _ from 'lodash-fp'
 import parseJson from 'body/json'
 import debug from 'debug'
 
-var log = debug('ephembot:index.js').bind(console)
+var error = debug('ephembot:index')
+var log = debug('ephembot:index')
+// Make logs go to stdout instead of stderr
+log.log = console.log.bind(console)
 
 function parseBody (req, res, next) {
+  log('request:', req)
   parseJson(req, function (err, body) {
-    if (err) return next(err)
+    if (err) {
+      error('err:', err)
+      req.body = null
+      return next()
+    }
     req.body = body
     next()
   })
@@ -26,7 +34,7 @@ var router = Router()
 router.post('/ephemeral', parseBody, function (req, res) {
   log('POST /ephemeral')
   // grab the payload.
-  var command = req.body
+  var command = req.body || {}
   log('body', command)
 
   // assume failure.
