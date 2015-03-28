@@ -5,11 +5,13 @@ import Router from 'router'
 import commands from './src/commands'
 import _ from 'lodash-fp'
 import parseJson from 'body/json'
+import debug from 'debug'
+
+var log = debug('ephembot:index.js')
 
 function parseBody (req, res, next) {
   parseJson(req, function (err, body) {
     if (err) return next(err)
-    console.log(body)
     req.body = body
     next()
   })
@@ -22,9 +24,10 @@ var router = Router()
  * `/ephemeral` data.
  */
 router.post('/ephemeral', parseBody, function (req, res) {
+  log('POST /ephemeral')
   // grab the payload.
   var command = req.body
-  console.log(req.body)
+  log('body', command)
 
   // assume failure.
   res.statusCode = 400
@@ -38,7 +41,8 @@ router.post('/ephemeral', parseBody, function (req, res) {
   }
 
   // end response
-  res.end()
+  var response = run? `${command.text} ran successfully.` : `${command.text} did not run successfully.`
+  res.end(response)
 })
 
 var app = http.createServer(function (req, res) {

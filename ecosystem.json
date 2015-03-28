@@ -5,6 +5,7 @@
       "name"      : "ephembot",
       "script"    : "bin/ephembot",
       "env": {
+        "DEBUG": "ephembot:*",
         "EPHEMBOT_PORT": "6066"
       },
       "env_production" : {
