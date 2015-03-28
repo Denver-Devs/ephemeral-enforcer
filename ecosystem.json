@@ -1,0 +1,27 @@
+{
+  "apps" : [
+
+    {
+      "name"      : "ephembot",
+      "script"    : "bin/ephembot",
+      "env": {
+      },
+      "env_production" : {
+        "NODE_ENV": "production",
+        "EPHEMBOT_PORT": "6066"
+      }
+    }
+  ],
+
+
+  "deploy" : {
+    "production" : {
+      "user" : "talon",
+      "host" : "104.131.5.48",
+      "ref"  : "origin/master",
+      "repo" : "git@github.com:Denver-Devs/ephemeral-enforcer.git",
+      "path" : "/srv/ephemeral-enforcer",
+      "post-deploy" : "npm install && pm2 startOrRestart ecosystem.js --env production"
+    }
+  }
+}

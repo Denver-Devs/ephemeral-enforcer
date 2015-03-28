@@ -3,7 +3,7 @@ require('babel/register')
 var app = require('../index.js')
 var argv = require('minimist')(process.argv.slice(2))
 
-var port = argv.p || 3000
+var port = argv.p || process.env.EPHEMBOT_PORT || 3000
 
 app.listen(port, function() {
   console.log('ephembot listening on port', port)
