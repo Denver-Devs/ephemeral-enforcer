@@ -3,7 +3,7 @@
 import http from 'http'
 import finalhandler from 'finalhandler'
 import Router from 'router'
-import commands from './lib/commands'
+import commands from './src/commands'
 import _ from 'lodash-fp'
 import parseBody from 'body-parser'
 
