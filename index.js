@@ -4,7 +4,7 @@ import finalhandler from 'finalhandler'
 import Router from 'router'
 import commands from './src/commands'
 import _ from 'lodash-fp'
-import parseJson from 'body/json'
+import body from 'body/form'
 import debug from 'debug'
 
 var error = debug('ephembot:index')
@@ -14,7 +14,8 @@ log.log = console.log.bind(console)
 
 function parseBody (req, res, next) {
   log('request:', req)
-  parseJson(req, function (err, body) {
+  body(req, function (err, body) {
+    console.log(body)
     if (err) {
       error('err:', err)
       req.body = null
