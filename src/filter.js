@@ -1,9 +1,9 @@
-var _ = require('lodash-fp')
+import _ from 'lodash-fp'
 
-module.exports = function (cursor) {
+const filterByCursor = function (cursor) {
   return function (lookingFor) {
-    return _.filter(function (message) {
-      return message[lookingFor] <= cursor
-    })
+    return _.filter(message => message[lookingFor] <= cursor)
   }
 }
+
+export default filterByCursor

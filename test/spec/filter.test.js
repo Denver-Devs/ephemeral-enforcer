@@ -1,11 +1,13 @@
 /* global describe it */
 
-var _ = require('lodash-fp')
-var fixture = require('../fixture/filter-fixture')
-var filter = require('../../src/filter')
-var expect = require('chai').expect
+require('babel/register')
 
-describe('filter', function () {
+const _ = require('lodash-fp')
+const fixture = require('../fixture/filter-fixture')
+const filter = require('../../src/filter')
+const expect = require('chai').expect
+
+describe('/filter', function () {
   it('returns a function', function () {
     expect(_.isFunction(filter)).to.be.equal(true)
   })
