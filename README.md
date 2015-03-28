@@ -1,5 +1,6 @@
 # ephemeral-enforcer
-A slack (bot) that deletes messages for ephemerality sake!
+[![Build Status](https://drone.io/github.com/Denver-Devs/ephemeral-enforcer/status.png)](https://drone.io/github.com/Denver-Devs/ephemeral-enforcer/latest)
+A slack bot that deletes messages for ephemerality sake!
 
 # How to use
 
