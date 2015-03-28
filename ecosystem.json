@@ -19,7 +19,7 @@
       "host" : "104.131.5.48",
       "ref"  : "origin/master",
       "repo" : "git@github.com:Denver-Devs/ephemeral-enforcer.git",
-      "path" : "/srv/ephemeral-enforcer/production",
+      "path" : "/srv/ephemeral-enforcer/source",
       "post-deploy" : "export PATH=~/local/bin:$PATH && npm install && pm2 startOrRestart ecosystem.json --env production"
     }
   }
