@@ -1,7 +1,5 @@
 /* global describe it */
 
-require('babel/register')
-
 var app = require('../../')
 var request = require('supertest')(app)
 
