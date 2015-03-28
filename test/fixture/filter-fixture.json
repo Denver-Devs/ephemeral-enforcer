@@ -1,0 +1,109 @@
+{
+  "ok": true,
+  "latest": "1358547726.000022",
+  "messages": [
+    {
+      "type": "message",
+      "ts": "1358546515.000022",
+      "user": "U2147483896",
+      "text": "Hello"
+    },
+    {
+      "type": "message",
+      "ts": "1358546515.000021",
+      "user": "U2147483896",
+      "text": "Hello"
+    },
+    {
+      "type": "message",
+      "ts": "1358546515.000020",
+      "user": "U2147483896",
+      "text": "Hello"
+    },
+    {
+      "type": "message",
+      "ts": "1358546515.000019",
+      "user": "U2147483896",
+      "text": "Hello"
+    },
+    {
+      "type": "message",
+      "ts": "1358546515.000018",
+      "user": "U2147483896",
+      "text": "Hello"
+    },
+    {
+      "type": "message",
+      "ts": "1358546515.000017",
+      "user": "U2147483896",
+      "text": "Hello"
+    },
+    {
+      "type": "message",
+      "ts": "1358546515.000016",
+      "user": "U2147483896",
+      "text": "Hello"
+    },
+    {
+      "type": "message",
+      "ts": "1358546515.000015",
+      "user": "U2147483896",
+      "text": "Hello"
+    },
+    {
+      "type": "message",
+      "ts": "1358546515.000014",
+      "user": "U2147483896",
+      "text": "Hello"
+    },
+    {
+      "type": "message",
+      "ts": "1358546515.000013",
+      "user": "U2147483896",
+      "text": "Hello"
+    },
+    {
+      "type": "message",
+      "ts": "1358546515.000012",
+      "user": "U2147483896",
+      "text": "Hello"
+    },
+    {
+      "type": "message",
+      "ts": "1358546515.000011",
+      "user": "U2147483896",
+      "text": "Hello"
+    },
+    {
+      "type": "message",
+      "ts": "1358546515.000010",
+      "user": "U2147483896",
+      "text": "Hello"
+    },
+    {
+      "type": "message",
+      "ts": "1358546515.000009",
+      "user": "U2147483896",
+      "text": "Hello"
+    },
+    {
+      "type": "message",
+      "ts": "1358546515.000008",
+      "user": "U2147483896",
+      "text": "Hello"
+    },
+    {
+      "type": "message",
+      "ts": "1358546515.000007",
+      "user": "U2147483896",
+      "text": "World",
+      "is_starred": true
+    },
+    {
+      "type": "something_else",
+      "ts": "1358546515.000007",
+      "wibblr": true
+    }
+  ],
+  "has_more": false
+}

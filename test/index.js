@@ -4,4 +4,5 @@ require('babel/register')
 /**
  * Require enabled tests here.
  */
-require('./endpoints.test')
+require('./spec/endpoints.test')
+require('./spec/filter.test')

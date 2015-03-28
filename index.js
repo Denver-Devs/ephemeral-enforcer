@@ -1,5 +1,4 @@
 'use strict'
-
 import http from 'http'
 import finalhandler from 'finalhandler'
 import Router from 'router'
