@@ -21,7 +21,7 @@
       "ref"  : "origin/master",
       "repo" : "git@github.com:Denver-Devs/ephemeral-enforcer.git",
       "path" : "/srv/ephemeral-enforcer",
-      "post-deploy" : "npm install && pm2 startOrRestart ecosystem.js --env production"
+      "post-deploy" : "export PATH=~/local/bin:$PATH && npm install && pm2 startOrRestart ecosystem.js --env production"
     }
   }
 }
