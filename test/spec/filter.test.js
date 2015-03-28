@@ -1,11 +1,10 @@
 /* global describe it */
 
-require('babel/register')
-
 const _ = require('lodash-fp')
+const expect = require('chai').expect
+
 const fixture = require('../fixture/filter-fixture')
 const filter = require('../../src/filter')
-const expect = require('chai').expect
 
 describe('/filter', function () {
   it('returns a function', function () {
