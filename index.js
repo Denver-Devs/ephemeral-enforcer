@@ -13,9 +13,7 @@ var log = debug('ephembot:index')
 log.log = console.log.bind(console)
 
 function parseBody (req, res, next) {
-  log('request:', req)
   body(req, function (err, body) {
-    console.log(body)
     if (err) {
       error('err:', err)
       req.body = null
