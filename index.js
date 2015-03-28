@@ -7,7 +7,7 @@ import _ from 'lodash-fp'
 import parseJson from 'body/json'
 import debug from 'debug'
 
-var log = debug('ephembot:index.js')
+var log = debug('ephembot:index.js').bind(console)
 
 function parseBody (req, res, next) {
   parseJson(req, function (err, body) {
@@ -47,6 +47,12 @@ router.post('/ephemeral', parseBody, function (req, res) {
 
   res.end(response)
 })
+
+router.all('*', function(req, res) {
+  log(req.method)
+  res.end('Send POST requests to /ephemeral please and thanks')
+})
+
 
 var app = http.createServer(function (req, res) {
   router(req, res, finalhandler(req, res))
