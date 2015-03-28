@@ -41,7 +41,10 @@ router.post('/ephemeral', parseBody, function (req, res) {
   }
 
   // end response
-  var response = run? `${command.text} ran successfully.` : `${command.text} did not run successfully.`
+  var response = run ?
+    `${command.text} ran successfully.`
+  : `${command.text} did not run successfully.`
+
   res.end(response)
 })
 
