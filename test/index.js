@@ -6,3 +6,4 @@ require('babel/register')
  */
 require('./spec/endpoints.test')
 require('./spec/filter.test')
+require('./spec/post.test')
