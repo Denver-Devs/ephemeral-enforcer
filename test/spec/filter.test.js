@@ -1,17 +1,17 @@
 /* global describe it */
 
-const _ = require('lodash-fp')
-const expect = require('chai').expect
+import _ from 'lodash-fp'
+import {expect} from 'chai'
 
-const fixture = require('../fixture/filter-fixture')
-const filter = require('../../src/filter')
+import fixture from '../fixture/filter-fixture'
+import filter from '../../src/filter'
 
 describe('/filter', function () {
   it('returns a function', function () {
     expect(_.isFunction(filter)).to.be.equal(true)
   })
 
-  it('should return a filtered array', function () {
+  it('when called, returns a filtered array', function () {
     expect(filter('1358546515.000017')('ts')(fixture.messages).length).to.be.equal(12)
   })
 })
