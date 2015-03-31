@@ -1,27 +1,81 @@
 import _ from 'lodash-fp'
-import request from 'request-promise'
-import {EventEmitter} from 'events'
+import https from 'https'
 
-const vent = new EventEmitter()
+const getHistory = function (opts) {
+  return request(opts, []).then(_.partialRight(handleSucc, opts)).catch(handleFail)
+}
 
-const success = function(res) {
-  let payload = JSON.parse(res)
+const request = function (opts, prev) {
+  let path = createParams(opts)
+
+  return new Promise(function (resolve, reject) {
+    let cat = function (res) {
+      let acc = ''
+
+      res.on('data', (data) => acc += data)
+      res.on('error', (e) => reject(e))
+      res.on('end', () => {
+        let rest = JSON.parse(acc)
+        rest.prev = prev
+        resolve(rest)
+      })
+    }
+
+    https.get({host: 'slack.com', path: path}, cat)
+  })
+}
+
+// handle
+// ---------------------------------------------------------------------------
+
+const handleSucc = function (payload, opts) {
   let messages = _.clone(payload.messages)
+  let prev = payload.prev
   let hasMore = payload.has_more
+  let nextOpts = _.clone(opts)
 
-  vent.emit('done', messages, hasMore)
+  // mutate
+  prev.push(messages)
+  nextOpts.head = _.last(messages).ts
+
+  if (hasMore === true) {
+    return request(nextOpts, prev).then(_.partialRight(handleSucc, nextOpts))
+  } else {
+    return prev // all done!
+  }
 }
 
-const failure = function(err) {
-  vent.emit('fail', err)
+const handleFail = function (err) {
+  console.log('error', err)
 }
 
-const getHistory = function (token, channel, count) {
-  let url = `https://slack.com/api/channels.history?token=${token}&channel=${channel}&count=${count}`
+// util
+// ---------------------------------------------------------------------------
 
-  request(url).then(success).catch(failure)
+const createParams = function (opts) {
+  let {token, channel, count, head} = opts
+  let params = []
 
-  return vent
+  if (token) {
+    params.push(`token=${token}`)
+  }
+
+  if (channel) {
+    params.push(`channel=${channel}`)
+  }
+
+  if (count) {
+    params.push(`count=${count}`)
+  }
+
+  if (head) {
+    params.push(`latest=${head}`)
+  }
+
+  return `/api/channels.history?${params.join('&')}`
 }
+
+// export
+// ---------------------------------------------------------------------------
 
 export default getHistory
