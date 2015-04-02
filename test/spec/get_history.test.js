@@ -1,7 +1,6 @@
 /* global describe it */
 
 import _ from 'lodash-fp'
-import {EventEmitter} from 'events'
 import {expect} from 'chai'
 
 import get from '../../src/get_history'
@@ -9,10 +8,23 @@ import get from '../../src/get_history'
 const token = 'xoxp-4015048983-4095381751-4211369118-ecfcf5'
 const channel = 'C046T6XKP'
 
-describe('/get_history', function () {
-  it('returns an event emitter', function () {
-    let got = get(token, channel, 100)
+const opts = {
+  token: token,
+  channel: channel,
+  count: 100,
+  head: Date.now()
+}
 
-    expect(got instanceof EventEmitter).to.be.equal(true)
+describe('/get_history', function () {
+  it('should use a mock for tests :)', function () {
+
+  })
+
+  it('returns a promise', function (done) {
+    let got = get(opts)
+
+    got.then(() => done())
+
+    expect(got instanceof Promise).to.be.equal(true)
   })
 })
