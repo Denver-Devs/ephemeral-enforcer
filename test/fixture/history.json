@@ -4,18 +4,6 @@
   "messages": [
     {
       "type": "message",
-      "ts": "1358546515.000022",
-      "user": "U2147483896",
-      "text": "Hello"
-    },
-    {
-      "type": "message",
-      "ts": "1358546515.000021",
-      "user": "U2147483896",
-      "text": "Hello"
-    },
-    {
-      "type": "message",
       "ts": "1358546515.000020",
       "user": "U2147483896",
       "text": "Hello"
@@ -100,9 +88,46 @@
       "is_starred": true
     },
     {
-      "type": "something_else",
-      "ts": "1358546515.000007",
-      "wibblr": true
+      "type": "message",
+      "ts": "1358546515.000006",
+      "user": "U2147483896",
+      "text": "World",
+      "is_starred": true
+    },
+    {
+      "type": "message",
+      "ts": "1358546515.000005",
+      "user": "U2147483896",
+      "text": "World",
+      "is_starred": true
+    },
+    {
+      "type": "message",
+      "ts": "1358546515.000004",
+      "user": "U2147483896",
+      "text": "World",
+      "is_starred": true
+    },
+    {
+      "type": "message",
+      "ts": "1358546515.000003",
+      "user": "U2147483896",
+      "text": "World",
+      "is_starred": true
+    },
+    {
+      "type": "message",
+      "ts": "1358546515.000002",
+      "user": "U2147483896",
+      "text": "World",
+      "is_starred": true
+    },
+    {
+      "type": "message",
+      "ts": "1358546515.000001",
+      "user": "U2147483896",
+      "text": "World",
+      "is_starred": true
     }
   ],
   "has_more": false

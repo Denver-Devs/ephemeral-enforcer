@@ -32,6 +32,7 @@
   "devDependencies": {
     "chai": "^2.2.0",
     "mocha": "^2.2.1",
+    "nock": "^1.4.0",
     "pm2": "^0.12.9",
     "standard": "^3.3.0",
     "supertest": "^0.15.0"
@@ -43,7 +44,6 @@
     "finalhandler": "^0.3.4",
     "lodash-fp": "^0.5.1",
     "minimist": "^1.1.1",
-    "request-promise": "^0.4.1",
     "router": "^1.0.0"
   }
 }

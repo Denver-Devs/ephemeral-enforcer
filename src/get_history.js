@@ -1,5 +1,6 @@
 import _ from 'lodash-fp'
 import https from 'https'
+import querystring from 'querystring'
 
 const getHistory = function (opts) {
   return request(opts, []).then(_.partialRight(handleSucc, opts)).catch(handleFail)
@@ -14,10 +15,15 @@ const request = function (opts, prev) {
 
       res.on('data', (data) => acc += data)
       res.on('error', (e) => reject(e))
-      res.on('end', () => {
-        let rest = JSON.parse(acc)
-        rest.prev = prev
-        resolve(rest)
+      res.on('end', function () {
+        let msg = JSON.parse(acc)
+        msg.prev = prev
+
+        if (msg.ok === true) {
+          resolve(msg)
+        } else {
+          reject(msg)
+        }
       })
     }
 
@@ -35,13 +41,14 @@ const handleSucc = function (payload, opts) {
   let nextOpts = _.clone(opts)
 
   // mutate
-  prev.push(messages)
-  nextOpts.head = _.last(messages).ts
+  let acc = prev.concat(messages)
+
+  nextOpts.latest = _.last(messages).ts
 
   if (hasMore === true) {
-    return request(nextOpts, prev).then(_.partialRight(handleSucc, nextOpts))
+    return request(nextOpts, acc).then(_.partialRight(handleSucc, nextOpts))
   } else {
-    return prev // all done!
+    return acc // all done!
   }
 }
 
@@ -53,26 +60,7 @@ const handleFail = function (err) {
 // ---------------------------------------------------------------------------
 
 const createParams = function (opts) {
-  let {token, channel, count, head} = opts
-  let params = []
-
-  if (token) {
-    params.push(`token=${token}`)
-  }
-
-  if (channel) {
-    params.push(`channel=${channel}`)
-  }
-
-  if (count) {
-    params.push(`count=${count}`)
-  }
-
-  if (head) {
-    params.push(`latest=${head}`)
-  }
-
-  return `/api/channels.history?${params.join('&')}`
+  return `/api/channels.history?${querystring.stringify(opts)}`
 }
 
 // export

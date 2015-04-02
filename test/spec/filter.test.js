@@ -3,7 +3,7 @@
 import _ from 'lodash-fp'
 import {expect} from 'chai'
 
-import fixture from '../fixture/filter-fixture'
+import fixture from '../fixture/history'
 import filter from '../../src/filter'
 
 describe('/filter', function () {
