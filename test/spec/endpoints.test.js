@@ -1,9 +1,13 @@
-/* global describe it */
+/* global describe it before after */
 
 var app = require('../../')
 var request = require('supertest')(app)
+var nock = require('nock')
 
 describe('/ephemeral', function () {
+  before(() => nock.enableNetConnect())
+  after(() => nock.disableNetConnect())
+
   it('should respond 200 to supported commands', function (done) {
     var body = `command=/ephemeral&text=on`
     request
