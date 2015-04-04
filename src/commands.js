@@ -19,7 +19,7 @@ export default {
     log('on', cmd.channel_id)
     let del = remove(config.get('slack_token'), cmd.channel_id)
 
-    database[cmd.channel_id] = setInterval(function () {
+    let intervalFn = function () {
       log(cmd.channel_id, 'deleting messages.')
       getHistory({
         token: config.get('slack_token'),
@@ -28,7 +28,9 @@ export default {
       })
         .then(del)
         .catch(error)
-    }, minutes(defaultLevel))
+    }
+    intervalFn()
+    database[cmd.channel_id] = setInterval(intervalFn, minutes(defaultLevel))
 
     return `Ephemeral on: ${defaultLevel} minutes`
   },
