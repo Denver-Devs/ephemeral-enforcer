@@ -50,7 +50,11 @@ export default {
   'level': function (cmd) {
     let mins = Number(cmd.text.split(' ')[1])
 
-    if (_.isNaN(mins)) return 'level must be the number of minutes'
+    if (_.isNaN(mins)) {
+      error('Incorrect minute value', mins)
+      error('cmd.text', cmd.text)
+      return 'level must be the number of minutes'
+    }
 
     log('level', mins)
     clearInterval(database[cmd.channel_id])

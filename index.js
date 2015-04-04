@@ -41,7 +41,10 @@ router.post('/ephemeral', parseBody, function (req, res) {
   res.statusCode = 400
 
   // Grab the function based on command name and run it if it exists
-  var run = commands[command.text]
+  // the function name is the command name which should be the first word
+  // in after /ephemeral
+  error(command.text.split(' ')[0])
+  var run = commands[command.text.split(' ')[0]]
   if (command.command === '/ephemeral' && run) {
     // everything is good, let the client know.
     res.statusCode = 200
