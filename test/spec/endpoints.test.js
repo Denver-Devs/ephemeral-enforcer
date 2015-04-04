@@ -4,9 +4,22 @@ var app = require('../../')
 var request = require('supertest')(app)
 var nock = require('nock')
 
+let res = {
+  ok: true,
+  has_more: false,
+  messages: []
+}
+
+// nock('https://slack.com').post('/api/chat.delete').times(1).reply(200, res)
+nock('https://slack.com')
+  .filteringPath(function (path) {
+    return path.match(/\/api\/channels.history/)
+  })
+  .get('/api/channels.history').times(1).reply(200, res)
+
 describe('/ephemeral', function () {
-  before(() => nock.enableNetConnect())
-  after(() => nock.disableNetConnect())
+  before(() => nock.enableNetConnect('127.0.0.1'))
+  after(() => nock.disableNetConnect('127.0.0.1'))
 
   it('should respond 200 to supported commands', function (done) {
     var body = `command=/ephemeral&text=on`
