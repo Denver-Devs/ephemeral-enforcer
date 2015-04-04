@@ -1,38 +1,35 @@
-/* global describe it */
+/* global describe it beforeEach afterEach */
 
 import _ from 'lodash-fp'
 import {expect} from 'chai'
 import nock from 'nock'
 
-import {messages} from '../fixture/history'
+import fixture from '../fixture/get_history.fixture'
 import get from '../../src/get_history'
 
 const opts = {
   token: 'foo',
   channel: 'bar',
   count: 10,
-  inclusive: 1,
-  latest: 1358546515
+  latest: 'now'
 }
 
-let first = '/api/channels.history?token=foo&channel=bar&count=10&inclusive=1&latest=1358546515'
-let firstRes = {
-  ok: true,
-  has_more: true,
-  messages: messages.slice(0, 10)
-}
+const first = '/api/channels.history?token=foo&channel=bar&count=10&latest=now'
+const firstRes = fixture[0]
 
-let second = '/api/channels.history?token=foo&channel=bar&count=10&inclusive=1&latest=1358546515.000011'
-let secondRes = {
-  ok: true,
-  has_more: false,
-  messages: messages.slice(10)
-}
-
-nock('https://slack.com').get(first).times(4).reply(200, firstRes)
-nock('https://slack.com').get(second).times(4).reply(200, secondRes)
+const second = '/api/channels.history?token=foo&channel=bar&count=10&latest=1358546515.000011'
+const secondRes = fixture[1]
 
 describe('/get_history', function () {
+  beforeEach(function () {
+    nock('https://slack.com').get(first).times(1).reply(200, firstRes)
+    nock('https://slack.com').get(second).times(1).reply(200, secondRes)
+  })
+
+  afterEach(function () {
+    nock.cleanAll()
+  })
+
   it('should return a promise', function (done) {
     let got = get(opts)
 
