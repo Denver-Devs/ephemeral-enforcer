@@ -33,7 +33,8 @@ var router = Router()
 router.post('/ephemeral', parseBody, function (req, res) {
   log('POST /ephemeral')
   // grab the payload.
-  var command = req.body || {}
+  let command = req.body || {}
+  let resp = 'An error occured.'
   log('body', command)
 
   // assume failure.
@@ -44,15 +45,10 @@ router.post('/ephemeral', parseBody, function (req, res) {
   if (command.command === '/ephemeral' && run) {
     // everything is good, let the client know.
     res.statusCode = 200
-    run(command)
+    resp = run(command)
   }
 
-  // end response
-  var response = run ?
-    `${command.text} ran successfully.`
-  : `${command.text} did not run successfully.`
-
-  res.end(response)
+  res.end(resp)
 })
 
 router.all('*', function (req, res) {
