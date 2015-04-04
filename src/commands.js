@@ -43,10 +43,6 @@ export default {
     return 'level is not yet implemented.'
   },
   'clean': function (cmd) {
-    // cmd.token
-    // cmd.channel_id
-    // channel_id=C2147483705
-    // token=gIkuvaNzQIHg97ATvDxqgjtO
     return 'clean is not yet implemented.'
   }
 }
