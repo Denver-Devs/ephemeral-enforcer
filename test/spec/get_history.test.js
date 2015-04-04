@@ -11,17 +11,18 @@ const opts = {
   token: 'foo',
   channel: 'bar',
   count: 10,
+  inclusive: 1,
   latest: 1358546515
 }
 
-let first = '/api/channels.history?token=foo&channel=bar&count=10&latest=1358546515'
+let first = '/api/channels.history?token=foo&channel=bar&count=10&inclusive=1&latest=1358546515'
 let firstRes = {
   ok: true,
   has_more: true,
   messages: messages.slice(0, 10)
 }
 
-let second = '/api/channels.history?token=foo&channel=bar&count=10&latest=1358546515.000011'
+let second = '/api/channels.history?token=foo&channel=bar&count=10&inclusive=1&latest=1358546515.000011'
 let secondRes = {
   ok: true,
   has_more: false,
