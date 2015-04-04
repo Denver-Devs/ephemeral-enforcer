@@ -48,7 +48,7 @@ export default {
     return `Ephemeral off`
   },
   'level': function (cmd) {
-    let mins = Number(cmd.text)
+    let mins = Number(cmd.text.split(' ')[1])
 
     if (_.isNaN(mins)) return 'level must be the number of minutes'
 
