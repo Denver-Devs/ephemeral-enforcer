@@ -55,7 +55,7 @@ export default {
     log('level', mins)
     clearInterval(database[cmd.channel_id])
     database[cmd.channel_id] = setInterval(
-        intervalFn(cmd.channel_id, defaultLevel), minutes(mins))
+        intervalFn(cmd.channel_id, mins), minutes(mins))
 
     return 'level set to ' + cmd.text
   },
