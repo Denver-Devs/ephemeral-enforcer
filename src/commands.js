@@ -24,7 +24,7 @@ const intervalFn = function (chan, min) {
     let latest = Date.now() - minutes(min)
     log(chan, 'deleting messages older than', latest)
 
-    getHistory({
+    return getHistory({
       token: config.get('slack_token'),
       channel: chan,
       latest: latest
@@ -38,11 +38,11 @@ export default {
   'on': function (cmd) {
     log('on', cmd.channel_id)
 
-    // Run the command is run
-    intervalFn(cmd.channel_id, defaultLevel)()
+    // Run right away
+    let go = intervalFn(cmd.channel_id, defaultLevel)
+    go()
     // Then run at an interval
-    database[cmd.channel_id] = setInterval(
-        intervalFn(cmd.channel_id, defaultLevel), minutes(defaultLevel))
+    database[cmd.channel_id] = setInterval(go, minutes(defaultLevel))
 
     return `Ephemeral on: ${defaultLevel} minutes`
   },

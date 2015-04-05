@@ -7,13 +7,13 @@ const log = debug('ephembot:remove')
 log.log = console.log.bind(console)
 
 const postList = _.curry(function (token, channel, messages) {
-  log('initialized: ' + messages)
+  log('initialized: ' + JSON.stringify(messages))
 
   return _.map(message => deleteMessage(token, channel, message), messages)
 })
 
 const deleteMessage = function (token, channel, message) {
-  log('deleted: ' + message)
+  log('deleted: ' + JSON.stringify(message))
 
   let opts = {token, channel}
   opts.ts = message.ts
