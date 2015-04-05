@@ -40,7 +40,6 @@ const handleSucc = function (payload, opts) {
   let hasMore = payload.has_more
   let nextOpts = _.clone(opts)
 
-  // mutate
   let acc = prev.concat(messages)
 
   nextOpts.latest = _.last(messages).ts
