@@ -1,20 +1,28 @@
 import _ from 'lodash-fp'
 import https from 'https'
 import querystring from 'querystring'
+import debug from 'debug'
+
+const log = debug('get_history')
+log.log = console.log.bind(console)
 
 const getHistory = function (opts) {
+  log('initialized: ' + opts)
+
   return request(opts, []).then(_.partialRight(handleSucc, opts)).catch(handleFail)
 }
 
 const request = function (opts, prev) {
   let path = createParams(opts)
 
+  log('requested: ' + path)
+
   return new Promise(function (resolve, reject) {
     let cat = function (res) {
       let acc = ''
 
-      res.on('data', (data) => acc += data)
-      res.on('error', (e) => reject(e))
+      res.on('data', data => acc += data)
+      res.on('error', e => reject(e))
       res.on('end', function () {
         let msg = JSON.parse(acc)
         msg.prev = prev
@@ -35,11 +43,11 @@ const request = function (opts, prev) {
 // ---------------------------------------------------------------------------
 
 const handleSucc = function (payload, opts) {
-  let messages = _.clone(payload.messages)
-  let prev = payload.prev
   let hasMore = payload.has_more
   let nextOpts = _.clone(opts)
 
+  let messages = [...payload.messages]
+  let prev = payload.prev
   let acc = prev.concat(messages)
 
   nextOpts.latest = _.last(messages).ts
@@ -52,7 +60,9 @@ const handleSucc = function (payload, opts) {
 }
 
 const handleFail = function (err) {
-  console.log('error', err)
+  let log = debug('get_history')
+
+  log('rejected: ' + err)
 }
 
 // util
