@@ -3,7 +3,7 @@ import querystring from 'querystring'
 import https from 'https'
 import debug from 'debug'
 
-const log = debug('remove')
+const log = debug('ephembot:remove')
 log.log = console.log.bind(console)
 
 const postList = _.curry(function (token, channel, messages) {
