@@ -65,9 +65,9 @@ export default {
 
     log('level', mins)
     clearInterval(database[cmd.channel_id])
-    let go = intervalFn(cmd.channel_id, defaultLevel)
+    let go = intervalFn(cmd.channel_id, mins)
     go()
-    database[cmd.channel_id] = setInterval(go, minutes(mins))
+    database[cmd.channel_id] = setInterval(go, moment().subtract(mins, 'minutes').unix())
 
     return 'level set to ' + cmd.text
   },
