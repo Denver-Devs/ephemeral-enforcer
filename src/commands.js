@@ -15,10 +15,6 @@ log.log = console.log.bind(console)
 // 15 minutes is the default
 const defaultLevel = 15
 
-const minutes = function (m) {
-  return m * 60 * 1000
-}
-
 const intervalFn = function (chan, min) {
   let del = remove(config.get('slack_token'), chan)
   return function () {
@@ -43,7 +39,7 @@ export default {
     let go = intervalFn(cmd.channel_id, defaultLevel)
     go()
     // Then run at an interval
-    database[cmd.channel_id] = setInterval(go, minutes(defaultLevel))
+    database[cmd.channel_id] = setInterval(go, moment.duration(defaultLevel, 'minutes').asMilliseconds())
 
     return `Ephemeral on: ${defaultLevel} minutes`
   },
@@ -67,7 +63,7 @@ export default {
     clearInterval(database[cmd.channel_id])
     let go = intervalFn(cmd.channel_id, mins)
     go()
-    database[cmd.channel_id] = setInterval(go, moment().subtract(mins, 'minutes').unix())
+    database[cmd.channel_id] = setInterval(go, moment.duration(mins, 'minutes').asMilliseconds())
 
     return 'level set to ' + cmd.text
   },
