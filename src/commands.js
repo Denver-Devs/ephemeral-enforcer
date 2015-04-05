@@ -5,8 +5,9 @@ import config from 'config'
 import _ from 'lodash-fp'
 
 import debug from 'debug'
-var error = debug('ephembot:commands')
-var log = debug('ephembot:commands')
+
+let error = debug('ephembot:commands')
+let log = debug('ephembot:commands')
 // Make logs go to stdout instead of stderr
 log.log = console.log.bind(console)
 
@@ -37,6 +38,9 @@ export default {
   'on': function (cmd) {
     log('on', cmd.channel_id)
 
+    // Run the command is run
+    intervalFn(cmd.channel_id, defaultLevel)()
+    // Then run at an interval
     database[cmd.channel_id] = setInterval(
         intervalFn(cmd.channel_id, defaultLevel), minutes(defaultLevel))
 
