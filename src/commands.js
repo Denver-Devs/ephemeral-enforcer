@@ -3,6 +3,7 @@ import getHistory from './get_history'
 import remove from './remove'
 import config from 'config'
 import _ from 'lodash-fp'
+import moment from 'moment'
 
 import debug from 'debug'
 
@@ -21,13 +22,12 @@ const minutes = function (m) {
 const intervalFn = function (chan, min) {
   let del = remove(config.get('slack_token'), chan)
   return function () {
-    let latest = Date.now() - minutes(min)
-    log(chan, 'deleting messages older than', latest)
+    log(chan, 'deleting messages older than', moment().subtract(min, 'minutes'))
 
     return getHistory({
       token: config.get('slack_token'),
       channel: chan,
-      latest: latest
+      latest: moment().subtract(min, 'minutes')
     })
       .then(del)
       .catch(error)
