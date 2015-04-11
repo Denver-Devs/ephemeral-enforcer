@@ -23,7 +23,6 @@ function parseBody (req, res, next) {
 }
 
 module.exports = exports = function (commands) {
-
   var router = Router()
 
   /**
@@ -33,25 +32,25 @@ module.exports = exports = function (commands) {
   router.post('/ephemeral', parseBody, function (req, res) {
     log('POST /ephemeral')
     // grab the payload.
-    let command = req.body || {}
-    let resp = 'An error occured.'
+    let command = req.body || { text: '' }
     log('body', command)
 
-    // assume failure.
-    res.statusCode = 400
-
-    // Grab the function based on command name and run it if it exists
-    // the function name is the command name which should be the first word
-    // in after /ephemeral
-    error(command.text.split(' ')[0])
     var run = commands[command.text.split(' ')[0]]
-    if (command.command === '/ephemeral' && run) {
-      // everything is good, let the client know.
-      res.statusCode = 200
-      resp = run(command)
+    if (!run) {
+      res.statusCode = 400
+      res.end('That command is not implemented')
     }
 
-    res.end(resp)
+    run(command)
+      .then(function (resp) {
+        res.statusCode = 200
+        res.end(resp)
+      })
+      .catch(function (e) {
+        res.statusCode = 500
+        res.end(e.message)
+      })
+
   })
 
   router.all('*', function (req, res) {
