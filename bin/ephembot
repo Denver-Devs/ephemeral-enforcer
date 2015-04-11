@@ -1,7 +1,12 @@
 #!/usr/bin/env node
 require('babel/register')
-var app = require('../index.js')
+var IoC = require('electrolyte')
+var path = require('path')
 var argv = require('minimist')(process.argv.slice(2))
+
+IoC.loader(IoC.node(path.resolve(__dirname, '..')))
+IoC.loader(IoC.node(path.resolve(__dirname, '../src')))
+var app = IoC.create('index')
 
 var port = argv.p || process.env.EPHEMBOT_PORT || 3000
 
