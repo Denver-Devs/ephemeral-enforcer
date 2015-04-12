@@ -16,7 +16,7 @@ const res = {
   'ts': 'stub'
 }
 
-describe('/remove', function () {
+describe('remove', function () {
   beforeEach(function () {
     nock('https://slack.com').post('/api/chat.delete').times(40).reply(200, res)
   })

@@ -24,8 +24,8 @@ describe('database', function () {
     })
   })
 
-  describe('findOne', function () {
-    it('should put an object', function (done) {
+  describe('#findOne', function () {
+    it('should find an object by id', function (done) {
       var result = this.db.findOne('butts')
       result
         .then((x) => {

@@ -19,7 +19,7 @@ let commands = {
 }
 var request = require('supertest')(app(commands))
 
-describe('/ephemeral', function () {
+describe('POST /ephemeral', function () {
   before(function () {
     // nock.recorder.rec()
     nock.enableNetConnect(/^.*127\.0\.0\.1.*$/)
