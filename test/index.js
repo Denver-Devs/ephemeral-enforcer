@@ -8,3 +8,4 @@ require('./spec/endpoints.test')
 require('./spec/get_history.test')
 require('./spec/remove.test')
 require('./spec/database.test')
+require('./spec/start.test') // depends on database.test

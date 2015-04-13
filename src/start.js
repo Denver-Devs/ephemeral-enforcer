@@ -28,7 +28,7 @@ module.exports = exports = function start (db, get, remove) {
         channel: chan,
         latest: moment().subtract(level.num, level.unit).unix()
       })
-        .then(remove(config.get('slack_token'), chan))
+        .then(remove(config.get('slack_token'))(chan))
         .catch(error)
     }
 
@@ -40,7 +40,7 @@ module.exports = exports = function start (db, get, remove) {
       level: level,
       proc: setInterval(go, interv) // Execute `go` every `interv`
     })
-    .then(go) // After db operations are successfull `go` right now.
+    .then(go) // After db operations are successful `go` right now.
   }
 }
 
