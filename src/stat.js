@@ -10,6 +10,7 @@ module.exports = exports = function start (db) {
   return function (channel) {
     return db.findOne(channel)
       .then(function (item) {
+        if (!item) return null
         return item.level
       })
   }

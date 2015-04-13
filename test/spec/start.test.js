@@ -35,4 +35,16 @@ describe('start', function () {
       })
       .catch(done)
   })
+  it('should fail on invalid levels', function (done) {
+    let level = {num: 2, unit: 'butts'}
+    let id = 'sup'
+    this.start(id, level)
+      .then(function (data) {
+        done(new Error('then should not be called'))
+      })
+      .catch(function (e) {
+        expect(e instanceof Error).to.be.ok
+        done()
+      })
+  })
 })

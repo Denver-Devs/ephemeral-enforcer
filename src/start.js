@@ -20,6 +20,12 @@ module.exports = exports = function start (db, get, remove) {
   return function start (chan, level) {
     let interv = moment.duration(level.num, level.unit)
       .asMilliseconds()
+    if (interv <= 0) {
+      return Promise.reject(new Error(`
+        Invalid level.\n
+        Please provide a number and unit that follows the \`moment\` API.
+      `))
+    }
     /**
      * Composes `get_history` and `remove` to remove the messages that
      * are older than `level`
