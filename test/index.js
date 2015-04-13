@@ -10,3 +10,4 @@ require('./spec/remove.test')
 require('./spec/database.test')
 require('./spec/start.test') // depends on database.test
 require('./spec/stop.test') // depends on start.test
+require('./spec/commands.test')

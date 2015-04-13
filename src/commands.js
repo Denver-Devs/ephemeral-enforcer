@@ -19,15 +19,17 @@ module.exports = exports = function commandsModule (start, stop) {
     },
 
     'level': function (cmd) {
-      let level = Number(cmd.text.split(' ')[1])
+      let num = Number(cmd.text.split(' ')[1])
+      let unit = cmd.text.split(' ')[2]
+      let level = {num, unit}
 
       if (_.isNaN(level)) {
-        return Promise.reject('Invalid level')
+        return Promise.reject(new Error('Invalid level'))
       }
 
-      return start(cmd.channel_id, {num: level, unit: 'minutes'})
+      return start(cmd.channel_id, level)
         .then(function () {
-          return `Ephemeral level set to {level} minutes`
+          return 'Ephemeral level set to ' + level.num + ' ' + level.unit
         })
     },
 
