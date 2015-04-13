@@ -6,7 +6,7 @@ module.exports = exports = function database () {
   return {
     findOne (id) {
       let data = _.clone(store[id], true)
-      data._id = id
+      if (data) data._id = id
       return Promise.resolve(data)
     },
 

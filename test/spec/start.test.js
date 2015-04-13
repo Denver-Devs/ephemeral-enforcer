@@ -30,7 +30,7 @@ describe('start', function () {
       .then(function (data) {
         expect(data._id).to.be.equal(id)
         expect(data.level).to.be.deep.equal(level)
-        expect(data.proc).to.be.ok
+        expect(data.proc.ontimeout).to.be.ok
         done()
       })
       .catch(done)

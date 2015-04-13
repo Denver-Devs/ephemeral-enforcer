@@ -5,7 +5,7 @@ module.exports = exports = function stop (db) {
    * @return {promise}
    */
   return function (channel) {
-    return db.findOne({_id: channel})
+    return db.findOne(channel)
       .then(function (item) {
         if (!item) return false
         clearInterval(item.proc)
