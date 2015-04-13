@@ -42,6 +42,10 @@ Name the slash command whatever. Traditionally it is `/ephemeral`
 Ephembot runs only in the channel from which the command is used this allows for
 per-channel configuration.
 
+Setting ephembot's level tells it to delete messages that are older than the
+level. ex. `/ephemeral level 20 minutes` will tell ephembot to delete messages
+that are older than 20 minutes, every 20 minutes.
+
 ### /ephemeral on
 
 Turns ephembot on at the default interval 15 minutes for the current channel
@@ -50,7 +54,7 @@ Turns ephembot on at the default interval 15 minutes for the current channel
 
 Turns ephembot off for the current channel
 
-### /ephemeral level \<15 minutes|1 hour| 30 seconds\>
+### /ephemeral level \<15 minutes | 1 hour | 30 seconds\>
 
 Turns ephembot on at the given interval for the current channel
 
