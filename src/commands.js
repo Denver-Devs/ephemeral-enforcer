@@ -19,15 +19,16 @@ const intervalFn = function (chan, min) {
   let del = remove(config.get('slack_token'), chan)
   return function () {
     let latest = moment().subtract(min, 'minutes').unix()
+
     log(chan, 'deleting messages older than', latest)
 
-    return getHistory({
+    let hist = getHistory({
       token: config.get('slack_token'),
       channel: chan,
       latest: latest
     })
-      .then(del)
-      .catch(error)
+
+    return del(hist).catch(error)
   }
 }
 

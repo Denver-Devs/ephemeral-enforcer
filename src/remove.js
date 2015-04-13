@@ -6,10 +6,14 @@ import debug from 'debug'
 const log = debug('ephembot:remove')
 log.log = console.log.bind(console)
 
-const postList = _.curry(function (token, channel, messages) {
-  log('initialized: ' + JSON.stringify(messages))
+const postList = _.curry(function (token, channel, history) {
+  log('initialized: ' + history)
 
-  return _.map(message => deleteMessage(token, channel, message), messages)
+  return history.then(function (messages) {
+    let removed = _.map(message => deleteMessage(token, channel, message), messages)
+
+    return Promise.all(removed)
+  })
 })
 
 const deleteMessage = function (token, channel, message) {
