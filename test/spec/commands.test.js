@@ -12,7 +12,11 @@ before(function () {
     expect(channel, 'Missing payload.channel_id').to.be.ok
     return Promise.resolve({ok: true})
   }
-  this.cmds = commands(start, stop)
+  let stat = function (channel) {
+    expect(channel, 'Missing payload.channel_id').to.be.ok
+    return Promise.resolve({ok: true})
+  }
+  this.cmds = commands(start, stop, stat)
 })
 
 describe('commands', function () {
@@ -50,6 +54,17 @@ describe('commands', function () {
           expect(msg).to.match(/1 hour/)
           done()
         })
+        .catch(done)
+    })
+  })
+
+  describe('stat', function () {
+    it('should return a promise', function (done) {
+      let payload = {
+        channel_id: 'hello'
+      }
+      this.cmds.status(payload)
+        .then(() => done())
         .catch(done)
     })
   })

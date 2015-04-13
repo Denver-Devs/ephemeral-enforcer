@@ -1,3 +1,4 @@
+exports['@require'] = [ 'database' ]
 module.exports = exports = function stop (db) {
   /**
    * Stops the interval set on a channel
@@ -13,7 +14,3 @@ module.exports = exports = function stop (db) {
       })
   }
 }
-
-exports['@require'] = [
-  'database'
-]

@@ -6,7 +6,8 @@ let log = debug('ephembot:commands')
 // Make logs go to stdout instead of stderr
 log.log = console.log.bind(console)
 
-module.exports = exports = function commandsModule (start, stop) {
+exports['@require'] = ['start', 'stop', 'stat']
+module.exports = exports = function commandsModule (start, stop, stat) {
   return {
 
     'on': function (cmd) {
@@ -40,10 +41,15 @@ module.exports = exports = function commandsModule (start, stop) {
         .then(function () {
           return `Ephembot has been turned off`
         })
+    },
+
+    'status': function (cmd) {
+      log('status', cmd.channel_id)
+
+      return stat(cmd.channel_id)
+        .then(function (level) {
+          return `Level: {level.num} {level.unit}`
+        })
     }
   }
 }
-
-exports['@require'] = [
-  'start'
-]

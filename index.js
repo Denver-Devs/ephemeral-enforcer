@@ -22,6 +22,7 @@ function parseBody (req, res, next) {
   })
 }
 
+exports['@require'] = [ 'commands' ]
 module.exports = exports = function (commands) {
   var router = Router()
 
@@ -64,7 +65,3 @@ module.exports = exports = function (commands) {
 
   return app
 }
-
-exports['@require'] = [
-  'commands'
-]
