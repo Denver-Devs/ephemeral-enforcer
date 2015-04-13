@@ -22,6 +22,7 @@ function parseBody (req, res, next) {
   })
 }
 
+// Injected dependencies
 exports['@require'] = [ 'commands' ]
 module.exports = exports = function (commands) {
   var router = Router()
@@ -32,17 +33,28 @@ module.exports = exports = function (commands) {
    */
   router.post('/ephemeral', parseBody, function (req, res) {
     log('POST /ephemeral')
-    // grab the payload.
-    let command = req.body || { text: '' }
-    log('body', command)
 
-    var run = commands[command.text.split(' ')[0]]
+    // grab the payload.
+    let payload = req.body || { text: '' }
+    log('body', payload)
+
+    /**
+     * grab the command function from the commands object
+     */
+    var run = commands[payload.text.split(' ')[0]]
+
+    /**
+     * If the command doesn't exist bail and let the client know
+     */
     if (!run) {
       res.statusCode = 400
       res.end('That command is not implemented')
     }
 
-    run(command)
+    /**
+     * run the command function passing in the payload from slack
+     */
+    run(payload)
       .then(function (resp) {
         res.statusCode = 200
         res.end(resp)
@@ -54,11 +66,17 @@ module.exports = exports = function (commands) {
 
   })
 
+  /**
+   * All other routes respond with a message to the user to use `/ephemeral`
+   */
   router.all('*', function (req, res) {
     log(req.method)
     res.end('Send POST requests to /ephemeral please and thanks')
   })
 
+  /**
+   * Create the server and pass the req and res through the router
+   */
   var app = http.createServer(function (req, res) {
     router(req, res, finalhandler(req, res))
   })

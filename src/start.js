@@ -7,10 +7,12 @@ let log = debug('ephembot:commands')
 // Make logs go to stdout instead of stderr
 log.log = console.log.bind(console)
 
+// Injected dependencies
 exports['@require'] = [ 'database', 'get_history', 'remove' ]
 module.exports = exports = function start (db, get, remove) {
   /**
    * starts ephembot
+   *
    * @param {string} - slack channel id
    * @param {object} - `level`
    * @return {promise}
@@ -21,6 +23,7 @@ module.exports = exports = function start (db, get, remove) {
     /**
      * Composes `get_history` and `remove` to remove the messages that
      * are older than `level`
+     *
      * @return {promise}
      */
     let go = function () {

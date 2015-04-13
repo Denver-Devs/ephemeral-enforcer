@@ -6,10 +6,18 @@ let log = debug('ephembot:commands')
 // Make logs go to stdout instead of stderr
 log.log = console.log.bind(console)
 
+// Injected dependencies
 exports['@require'] = ['start', 'stop', 'stat']
 module.exports = exports = function commandsModule (start, stop, stat) {
   return {
 
+    /**
+     * Turns ephembot on with the default level of 15 minutes
+     *
+     * @return promise
+     * @example
+     *   /ephembot on
+     */
     'on': function (cmd) {
       log('on', cmd.channel_id)
 
@@ -19,10 +27,18 @@ module.exports = exports = function commandsModule (start, stop, stat) {
         })
     },
 
+    /**
+     * Turns ephembot on with the provided level
+     *
+     * @example
+     *   /ephembot level 10 hours
+     */
     'level': function (cmd) {
       let num = Number(cmd.text.split(' ')[1])
       let unit = cmd.text.split(' ')[2]
+
       let level = {num, unit}
+      log('level', level)
 
       if (_.isNaN(level)) {
         return Promise.reject(new Error('Invalid level'))
@@ -34,6 +50,12 @@ module.exports = exports = function commandsModule (start, stop, stat) {
         })
     },
 
+    /**
+     * Turns ephembot off
+     *
+     * @example
+     *   /ephembot off
+     */
     'off': function (cmd) {
       log('off', cmd.channel_id)
 
@@ -43,6 +65,12 @@ module.exports = exports = function commandsModule (start, stop, stat) {
         })
     },
 
+    /**
+     * Returns the current level
+     *
+     * @example
+     *   /ephembot status
+     */
     'status': function (cmd) {
       log('status', cmd.channel_id)
 

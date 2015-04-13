@@ -1,13 +1,25 @@
 #!/usr/bin/env node
 require('babel/register')
+
 var IoC = require('electrolyte')
 var path = require('path')
+
+/**
+ * Parse the CLI
+ */
 var argv = require('minimist')(process.argv.slice(2))
 
 IoC.loader(IoC.node(path.resolve(__dirname, '..')))
 IoC.loader(IoC.node(path.resolve(__dirname, '../src')))
+
+/**
+ * Load the app and inject dependencies
+ */
 var app = IoC.create('index')
 
+/**
+ * Use `ephembot -p <PORT_NUMBER>` to change the port the bot runs on.
+ */
 var port = argv.p || process.env.EPHEMBOT_PORT || 3000
 
 app.listen(port, function() {
