@@ -1,5 +1,5 @@
 {
-  "name": "ephemeral-enforcer",
+  "name": "ephembot",
   "version": "1.0.0",
   "engines": {
     "iojs": "^1.6.0"
@@ -22,10 +22,11 @@
     "url": "https://github.com/Denver-Devs/ephemeral-enforcer.git"
   },
   "keywords": [
-    "slack"
+    "slack",
+    "bot"
   ],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/Denver-Devs/ephemeral-enforcer/issues"
   },
@@ -47,6 +48,7 @@
     "lodash-fp": "^0.5.1",
     "minimist": "^1.1.1",
     "moment": "^2.9.0",
-    "router": "^1.0.0"
+    "router": "^1.0.0",
+    "electrolyte": "~0.0.3"
   }
 }
