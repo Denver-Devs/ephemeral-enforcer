@@ -1,28 +1,29 @@
-/* global describe it before after beforeEach afterEach */
+/* global describe it before after afterEach */
 
 var app = require('../../')
-var request = require('supertest')(app)
 var nock = require('nock')
 
-let res = {
-  ok: true,
-  has_more: false,
-  messages: []
+/**
+ * Mock the commands because all we are testing is that they get run.
+ */
+let commands = {
+  'on': function commandOn () {
+    return Promise.resolve('On ran.')
+  },
+  'off': function commandOff () {
+    return Promise.resolve('Off ran.')
+  },
+  'level': function commandLevel () {
+    return Promise.resolve('level ran')
+  }
 }
+var request = require('supertest')(app(commands))
 
-describe('/ephemeral', function () {
+describe('POST /ephemeral', function () {
   before(function () {
     // nock.recorder.rec()
     nock.enableNetConnect(/^.*127\.0\.0\.1.*$/)
 
-  })
-
-  beforeEach(function () {
-    nock('https://slack.com')
-      .filteringPath(function (path) {
-        return path.match(/\/api\/channels.history/)
-      })
-      .get('/api/channels.history').times(1).reply(200, res)
   })
 
   after(function () {

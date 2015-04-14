@@ -61,4 +61,8 @@ const fixture = [
   }
 ]
 
-export default fixture
+const thePromise = new Promise(function (resolve) {
+  resolve(fixture)
+})
+
+export default thePromise

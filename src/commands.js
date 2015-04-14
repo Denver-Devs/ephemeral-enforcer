@@ -1,73 +1,83 @@
-import database from './database'
-import getHistory from './get_history'
-import remove from './remove'
-import config from 'config'
 import _ from 'lodash-fp'
-import moment from 'moment'
-
 import debug from 'debug'
 
-let error = debug('ephembot:commands')
+// let error = debug('ephembot:commands')
 let log = debug('ephembot:commands')
 // Make logs go to stdout instead of stderr
 log.log = console.log.bind(console)
 
-// 15 minutes is the default
-const defaultLevel = 15
+// Injected dependencies
+exports['@require'] = ['start', 'stop', 'stat']
+module.exports = exports = function commandsModule (start, stop, stat) {
+  return {
 
-const intervalFn = function (chan, min) {
-  let del = remove(config.get('slack_token'), chan)
-  return function () {
-    let latest = moment().subtract(min, 'minutes').unix()
-    log(chan, 'deleting messages older than', latest)
+    /**
+     * Turns ephembot on with the default level of 15 minutes
+     *
+     * @return promise
+     * @example
+     *   /ephembot on
+     */
+    'on': function (cmd) {
+      log('on', cmd.channel_id)
 
-    return getHistory({
-      token: config.get('slack_token'),
-      channel: chan,
-      latest: latest
-    })
-      .then(del)
-      .catch(error)
-  }
-}
+      return start(cmd.channel_id, {num: 15, unit: 'minutes'})
+        .then(function () {
+          return 'Ephemeral level set to 15 minutes'
+        })
+    },
 
-export default {
-  'on': function (cmd) {
-    log('on', cmd.channel_id)
+    /**
+     * Turns ephembot on with the provided level
+     *
+     * @example
+     *   /ephembot level 10 hours
+     */
+    'level': function (cmd) {
+      let num = Number(cmd.text.split(' ')[1])
+      let unit = cmd.text.split(' ')[2]
 
-    // Run right away
-    let go = intervalFn(cmd.channel_id, defaultLevel)
-    go()
-    // Then run at an interval
-    database[cmd.channel_id] = setInterval(go, moment.duration(defaultLevel, 'minutes').asMilliseconds())
+      let level = {num, unit}
+      log('level', level)
 
-    return `Ephemeral on: ${defaultLevel} minutes`
-  },
-  'off': function (cmd) {
-    log('off', cmd.channel_id)
-    clearInterval(database[cmd.channel_id])
-    delete database[cmd.channel_id]
+      if (_.isNaN(level)) {
+        return Promise.reject(new Error('Invalid level'))
+      }
 
-    return `Ephemeral off`
-  },
-  'level': function (cmd) {
-    let mins = Number(cmd.text.split(' ')[1])
+      return start(cmd.channel_id, level)
+        .then(function () {
+          return 'Ephemeral level set to ' + level.num + ' ' + level.unit
+        })
+    },
 
-    if (_.isNaN(mins)) {
-      error('Incorrect minute value', mins)
-      error('cmd.text', cmd.text)
-      return 'level must be the number of minutes'
+    /**
+     * Turns ephembot off
+     *
+     * @example
+     *   /ephembot off
+     */
+    'off': function (cmd) {
+      log('off', cmd.channel_id)
+
+      return stop(cmd.channel_id)
+        .then(function () {
+          return `Ephembot has been turned off`
+        })
+    },
+
+    /**
+     * Returns the current level
+     *
+     * @example
+     *   /ephembot status
+     */
+    'status': function (cmd) {
+      log('status', cmd.channel_id)
+
+      return stat(cmd.channel_id)
+        .then(function (level) {
+          return `Level: {level.num} {level.unit}`
+        })
     }
-
-    log('level', mins)
-    clearInterval(database[cmd.channel_id])
-    let go = intervalFn(cmd.channel_id, mins)
-    go()
-    database[cmd.channel_id] = setInterval(go, moment.duration(mins, 'minutes').asMilliseconds())
-
-    return 'level set to ' + cmd.text
-  },
-  'clean': function (cmd) {
-    return 'clean is not yet implemented.'
   }
 }

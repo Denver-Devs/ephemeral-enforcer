@@ -20,7 +20,7 @@ const firstRes = fixture[0]
 const second = '/api/channels.history?token=foo&channel=bar&count=10&latest=1358546515.000011'
 const secondRes = fixture[1]
 
-describe('/get_history', function () {
+describe('get_history', function () {
   beforeEach(function () {
     nock('https://slack.com').get(first).times(1).reply(200, firstRes)
     nock('https://slack.com').get(second).times(1).reply(200, secondRes)

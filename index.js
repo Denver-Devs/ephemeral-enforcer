@@ -1,8 +1,6 @@
-'use strict'
 import http from 'http'
 import finalhandler from 'finalhandler'
 import Router from 'router'
-import commands from './src/commands'
 import _ from 'lodash-fp'
 import body from 'body/form'
 import debug from 'debug'
@@ -24,43 +22,64 @@ function parseBody (req, res, next) {
   })
 }
 
-var router = Router()
+// Injected dependencies
+exports['@require'] = [ 'commands' ]
+module.exports = exports = function (commands) {
+  var router = Router()
 
-/**
- * This route should be given to slack as the endpoint to which to send
- * `/ephemeral` data.
- */
-router.post('/ephemeral', parseBody, function (req, res) {
-  log('POST /ephemeral')
-  // grab the payload.
-  let command = req.body || {}
-  let resp = 'An error occured.'
-  log('body', command)
+  /**
+   * This route should be given to slack as the endpoint to which to send
+   * `/ephemeral` data.
+   */
+  router.post('/ephemeral', parseBody, function (req, res) {
+    log('POST /ephemeral')
 
-  // assume failure.
-  res.statusCode = 400
+    // grab the payload.
+    let payload = req.body || { text: '' }
+    log('body', payload)
 
-  // Grab the function based on command name and run it if it exists
-  // the function name is the command name which should be the first word
-  // in after /ephemeral
-  error(command.text.split(' ')[0])
-  var run = commands[command.text.split(' ')[0]]
-  if (command.command === '/ephemeral' && run) {
-    // everything is good, let the client know.
-    res.statusCode = 200
-    resp = run(command)
-  }
+    /**
+     * grab the command function from the commands object
+     */
+    var run = commands[payload.text.split(' ')[0]]
 
-  res.end(resp)
-})
+    /**
+     * If the command doesn't exist bail and let the client know
+     */
+    if (!run) {
+      res.statusCode = 400
+      res.end('That command is not implemented')
+    }
 
-router.all('*', function (req, res) {
-  log(req.method)
-  res.end('Send POST requests to /ephemeral please and thanks')
-})
+    /**
+     * run the command function passing in the payload from slack
+     */
+    run(payload)
+      .then(function (resp) {
+        res.statusCode = 200
+        res.end(resp)
+      })
+      .catch(function (e) {
+        res.statusCode = 500
+        res.end(e.message)
+      })
 
-var app = http.createServer(function (req, res) {
-  router(req, res, finalhandler(req, res))
-})
+  })
 
-export default app
+  /**
+   * All other routes respond with a message to the user to use `/ephemeral`
+   */
+  router.all('*', function (req, res) {
+    log(req.method)
+    res.end('Send POST requests to /ephemeral please and thanks')
+  })
+
+  /**
+   * Create the server and pass the req and res through the router
+   */
+  var app = http.createServer(function (req, res) {
+    router(req, res, finalhandler(req, res))
+  })
+
+  return app
+}
