@@ -22,19 +22,20 @@ describe('start', function () {
     let id = 'sup'
     this.start(id, level)
       .then(function (data) {
-        expect(data.ok).to.be.ok
+        expect(data.ok, 'Start should have triggered get and remove').to.be.ok
       })
       .then(() => {
         return this.db.findOne(id)
       })
       .then(function (data) {
-        expect(data._id).to.be.equal(id)
-        expect(data.level).to.be.deep.equal(level)
-        expect(data.proc.ontimeout).to.be.ok
+        expect(data._id, 'The _id should have been saved').to.be.equal(id)
+        expect(data.level, 'The level should have been saved').to.be.deep.equal(level)
+        expect(data.proc, 'A timeout should have been saved').to.be.an('object')
         done()
       })
       .catch(done)
   })
+
   it('should fail on invalid levels', function (done) {
     let level = {num: 2, unit: 'butts'}
     let id = 'sup'
