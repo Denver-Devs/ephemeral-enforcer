@@ -15,7 +15,7 @@
     "deploy": "npm test && pm2 deploy ecosystem.json production",
     "yolo-deploy": "pm2 deploy ecosystem.json production",
     "start": "./bin/ephembot",
-    "test": "standard; mocha test"
+    "test": "./node_modules/.bin/standard; ./node_modules/.bin/mocha test"
   },
   "repository": {
     "type": "git",
