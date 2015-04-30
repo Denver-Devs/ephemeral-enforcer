@@ -1,6 +1,5 @@
 // Injected dependencies
-exports['@require'] = [ 'database', 'get_history', 'remove' ]
-module.exports = exports = function start (db) {
+exports = module.exports = function start (db) {
   /**
    * Returns the given channels current level
    *
@@ -15,3 +14,4 @@ module.exports = exports = function start (db) {
       })
   }
 }
+exports['@require'] = [ 'database', 'get_history', 'remove' ]

@@ -23,8 +23,7 @@ function parseBody (req, res, next) {
 }
 
 // Injected dependencies
-exports['@require'] = [ 'commands' ]
-module.exports = exports = function (commands) {
+exports = module.exports = function (commands) {
   var router = Router()
 
   /**
@@ -48,7 +47,7 @@ module.exports = exports = function (commands) {
      */
     if (!run) {
       res.statusCode = 400
-      res.end('That command is not implemented')
+      return res.end('That command is not implemented')
     }
 
     /**
@@ -61,7 +60,7 @@ module.exports = exports = function (commands) {
       })
       .catch(function (e) {
         res.statusCode = 500
-        res.end(e.message)
+        res.end(`${e.message}\n${e.stack}`)
       })
 
   })
@@ -83,3 +82,4 @@ module.exports = exports = function (commands) {
 
   return app
 }
+exports['@require'] = [ 'commands' ]

@@ -1,6 +1,6 @@
 import _ from 'lodash-fp'
 
-module.exports = exports = function database () {
+exports = module.exports = function database () {
   /**
    *
    */

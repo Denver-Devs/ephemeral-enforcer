@@ -2,14 +2,13 @@ import config from 'config'
 import moment from 'moment'
 
 import debug from 'debug'
-let error = debug('ephembot:commands')
-let log = debug('ephembot:commands')
+let error = debug('ephembot:start')
+let log = debug('ephembot:start')
 // Make logs go to stdout instead of stderr
 log.log = console.log.bind(console)
 
 // Injected dependencies
-exports['@require'] = [ 'database', 'get_history', 'remove' ]
-module.exports = exports = function start (db, get, remove) {
+exports = module.exports = function start (db, get, remove) {
   /**
    * starts ephembot
    *
@@ -53,3 +52,4 @@ module.exports = exports = function start (db, get, remove) {
     .then(go) // After db operations are successful `go` right now.
   }
 }
+exports['@require'] = [ 'database', 'get_history', 'remove' ]

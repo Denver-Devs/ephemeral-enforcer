@@ -7,8 +7,7 @@ let log = debug('ephembot:commands')
 log.log = console.log.bind(console)
 
 // Injected dependencies
-exports['@require'] = ['start', 'stop', 'stat']
-module.exports = exports = function commandsModule (start, stop, stat) {
+exports = module.exports = function commandsModule (start, stop, stat) {
   return {
 
     /**
@@ -81,3 +80,4 @@ module.exports = exports = function commandsModule (start, stop, stat) {
     }
   }
 }
+exports['@require'] = ['start', 'stop', 'stat']

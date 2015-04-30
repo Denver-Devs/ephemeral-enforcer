@@ -61,4 +61,4 @@ const deleteMessage = function (token, channel, message) {
 // export
 // ---------------------------------------------------------------------------
 
-export default postList
+exports = module.exports = function () { return postList }

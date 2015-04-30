@@ -75,4 +75,4 @@ const createParams = function (opts) {
 // export
 // ---------------------------------------------------------------------------
 
-export default getHistory
+exports = module.exports = function () { return getHistory }
