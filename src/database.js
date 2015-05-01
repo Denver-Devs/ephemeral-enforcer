@@ -6,10 +6,8 @@ let log = debug('ephembot:database')
 // Make logs go to stdout instead of stderr
 log.log = console.log.bind(console)
 
+
 exports = module.exports = function database () {
-  /**
-   *
-   */
   let store = {}
 
   return {
@@ -46,3 +44,4 @@ exports = module.exports = function database () {
     }
   }
 }
+export['@singleton'] = true
