@@ -44,4 +44,4 @@ exports = module.exports = function database () {
     }
   }
 }
-export['@singleton'] = true
+exports['@singleton'] = true
