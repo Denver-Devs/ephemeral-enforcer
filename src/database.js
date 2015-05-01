@@ -15,7 +15,7 @@ exports = module.exports = function database () {
      */
     findOne (id) {
       let data = _.clone(store[id], true)
-      if (!data) return null
+      if (!data) return Promise.resolve(null)
       data._id = id
       return Promise.resolve(data)
     },

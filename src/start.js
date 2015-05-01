@@ -32,13 +32,11 @@ exports = module.exports = function start (db, get, remove) {
      * @return {promise}
      */
     let go = function () {
-      return get({
+      return remove(config.get('slack_token'))(chan)(get({
         token: config.get('slack_token'),
         channel: chan,
         latest: moment().subtract(level.num, level.unit).unix()
-      })
-        .then(remove(config.get('slack_token'))(chan))
-        .catch(error)
+      }))
     }
 
     /**

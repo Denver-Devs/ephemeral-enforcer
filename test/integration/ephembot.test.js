@@ -10,7 +10,6 @@ IoC.loader(IoC.node(path.resolve(__dirname, '../../')))
 IoC.loader(IoC.node(path.resolve(__dirname, '../../src')))
 
 const app = IoC.create('index')
-const db = IoC.create('database')
 
 const CHANNEL_ID = 'UIJF3243'
 const res = {
@@ -35,35 +34,43 @@ afterEach(function () {
   nock.cleanAll()
 })
 
-describe('Integration', function () {
-  describe('POST /ephemeral', function () {
-    beforeEach(function () {
-      nock('https://slack.com')
-        .filteringPath(/latest=[^&]*/g, 'latest=XXX')
-        .get(`/api/channel.history?token=&channel_id=${CHANNEL_ID}&latest=XXX`)
-        .reply(200, fixtures[0])
+describe('POST /ephemeral', function () {
+  beforeEach(function () {
+    nock('https://slack.com')
+      .filteringPath(/latest=[^&]*/g, 'latest=XXX')
+      .get('/api/channels.history?token=&channel=UIJF3243&latest=XXX')
+      .reply(200, fixtures[0])
 
-        .post('/api/chat.delete').times(40).reply(200, res)
-    })
-    it('should turn ephembot on when told', function (done) {
-      let body = `text=on&channel_id=${CHANNEL_ID}`
-      request
-        .post('/ephemeral')
-        .send(body)
-        .expect(200, function (err) {
-          if (err) return done(err)
-          db.findOne(CHANNEL_ID).then(function (data) {
-            expect(data).to.be.ok
-            done(err)
-          })
-        })
-    })
-    it('should respond 400 to unsupported commands', function (done) {
-      let body = `text=butts&channel_id=${CHANNEL_ID}`
-      request
-        .post('/ephemeral')
-        .send(body)
-        .expect(400, done)
-    })
+      .post('/api/chat.delete').times(40).reply(200, res)
+  })
+
+  it('should turn ephembot on when told', function (done) {
+    let body = `text=on&channel_id=${CHANNEL_ID}`
+    request
+      .post('/ephemeral')
+      .send(body)
+      .expect(200, done)
+  })
+
+  it('can be queried about current level', function (done) {
+    let body = `text=status&channel_id=${CHANNEL_ID}`
+
+    request
+      .post('/ephemeral')
+      .send(body)
+      .expect(200)
+      .end(function (err, data) {
+        if (err) return done(err)
+        console.log(data.text)
+        done()
+      })
+  })
+
+  it('should respond 400 to unsupported commands', function (done) {
+    let body = `text=butts&channel_id=${CHANNEL_ID}`
+    request
+      .post('/ephemeral')
+      .send(body)
+      .expect(400, done)
   })
 })
