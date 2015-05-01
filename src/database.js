@@ -41,6 +41,7 @@ exports = module.exports = function database () {
       if (!id) return Promise.reject('database.put requires _id field')
 
       store[id] = data
+      log('channel:' id, 'data:', store[id])
       return Promise.resolve(x)
     }
   }
