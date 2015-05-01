@@ -2,7 +2,7 @@ import config from 'config'
 import moment from 'moment'
 
 import debug from 'debug'
-let error = debug('ephembot:start')
+// let error = debug('ephembot:start')
 let log = debug('ephembot:start')
 // Make logs go to stdout instead of stderr
 log.log = console.log.bind(console)
@@ -32,12 +32,22 @@ exports = module.exports = function start (db, get, remove) {
      * @return {promise}
      */
     let go = function () {
-      return remove(config.get('slack_token'))(chan)(get({
+      let hist = get({
         token: config.get('slack_token'),
         channel: chan,
         latest: moment().subtract(level.num, level.unit).unix()
-      }))
+      })
+      return remove(config.get('slack_token'))(chan, hist)
     }
+
+    /**
+     * clear previously set levels
+     */
+    db.findOne(chan).then(function (item) {
+      if (item) {
+        clearInterval(item.proc)
+      }
+    })
 
     /**
      * Save the interval id (`proc`) and `level`

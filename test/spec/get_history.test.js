@@ -5,7 +5,8 @@ import {expect} from 'chai'
 import nock from 'nock'
 
 import fixture from '../fixture/get_history.fixture'
-import get from '../../src/get_history'
+import get_hist from '../../src/get_history'
+const get = get_hist()
 
 const opts = {
   token: 'foo',

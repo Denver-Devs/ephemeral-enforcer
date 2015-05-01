@@ -75,7 +75,7 @@ exports = module.exports = function commandsModule (start, stop, stat) {
 
       return stat(cmd.channel_id)
         .then(function (level) {
-          return level?
+          return level ?
               `Level: ${level.num} ${level.unit}`
             : 'Ephembot is off for this channel.'
         })

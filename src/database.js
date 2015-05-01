@@ -1,5 +1,11 @@
 import _ from 'lodash-fp'
 
+import debug from 'debug'
+// let error = debug('ephembot:database')
+let log = debug('ephembot:database')
+// Make logs go to stdout instead of stderr
+log.log = console.log.bind(console)
+
 exports = module.exports = function database () {
   /**
    *
@@ -15,6 +21,7 @@ exports = module.exports = function database () {
      */
     findOne (id) {
       let data = _.clone(store[id], true)
+      log('findOne', data, 'channel:', id)
       if (!data) return Promise.resolve(null)
       data._id = id
       return Promise.resolve(data)

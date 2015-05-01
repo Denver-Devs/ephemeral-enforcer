@@ -5,7 +5,8 @@ import {expect} from 'chai'
 import nock from 'nock'
 
 import messages from '../fixture/remove.fixture'
-import remove from '../../src/remove'
+import rem from '../../src/remove'
+const remove = rem()
 
 const token = 'foo'
 const channel = 'bar'
