@@ -33,7 +33,8 @@ exports = module.exports = function start (db, get, remove) {
      */
     let go = function () {
       let hist = get({
-        token: config.get('slack_token'),
+        // token: config.get('slack_token'),
+        token: process.env.SLACK_TOKEN
         channel: chan,
         latest: moment().subtract(level.num, level.unit).unix()
       })

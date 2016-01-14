@@ -15,8 +15,16 @@ ephembot -p 3000
 ```
 
 ### Docker (soon to be preferred)
+```shell
+export SLACK_TOKEN=<slack token>
+docker pull zachjamesgreen/ephembot
+docker run -d --name ephembot
+--build-arg token=${SLACK_TOKEN} \
+--build-arg port=3000 \
+zachjamesgreen/ephembot
+```
+Make sure to export your slack token.
 
-*coming soon*
 
 ### Git clone
 ```shell
@@ -26,13 +34,13 @@ cd ephemeral-enforcer
 
 `npm start` will run ephembot on port 3000.
 
-You can also install ephembot globally or `npm link` from inside the repo and 
+You can also install ephembot globally or `npm link` from inside the repo and
 run `ephembot -p 4000` which will run it on port 4000. Choose whatever port you
 want.
 
 ## Configure slack
 
-Add a slash command to your slack organization that POSTs to 
+Add a slash command to your slack organization that POSTs to
 `<your server>:<your port>/ephemeral`
 
 Name the slash command whatever. Traditionally it is `/ephemeral`
