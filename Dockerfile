@@ -1,4 +1,12 @@
-FROM iojs:onbuild
+FROM iojs:1.8.4
+MAINTAINER Zachary Green <zachjamesgreen@gmail.com>
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
+
+COPY package.json /usr/src/app/
+RUN npm install
+COPY . /usr/src/app
 
 # Expose the ports that your app uses. For example:
-EXPOSE 3000
+
+CMD [ "npm", "start" ]
