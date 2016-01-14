@@ -38,7 +38,8 @@ exports = module.exports = function start (db, get, remove) {
         channel: chan,
         latest: moment().subtract(level.num, level.unit).unix()
       })
-      return remove(config.get('slack_token'), chan)(hist)
+      return remove(process.env.SLACK_TOKEN, chan)(hist)
+      // config.get('slack_token')
     }
 
     /**
