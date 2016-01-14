@@ -18,9 +18,10 @@ ephembot -p 3000
 ```shell
 export SLACK_TOKEN=<slack token>
 docker pull zachjamesgreen/ephembot
-docker run -d --name ephembot
---build-arg token=${SLACK_TOKEN} \
---build-arg port=3000 \
+docker run -d --name ephembot \
+-e SLACK_TOKEN=${SLACK_TOKEN} \
+-e EPHEMBOT_PORT=<container port> \
+-p <host port>:<container port>
 zachjamesgreen/ephembot
 ```
 Make sure to export your slack token.
